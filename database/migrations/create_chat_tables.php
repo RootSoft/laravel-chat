@@ -16,6 +16,11 @@ class CreateChatTables extends Migration
     {
         Schema::create(ConfigurationManager::CONVERSATIONS_TABLE, function (Blueprint $table) {
             $table->bigIncrements('id');
+
+            $table->string('unique_name')->unique();
+            $table->string('friendly_name')->nullable();
+            $table->jsonb('attributes')->nullable();
+
             $table->boolean('private')->default(true);
             $table->boolean('direct_message')->default(false);
             $table->text('data')->nullable();

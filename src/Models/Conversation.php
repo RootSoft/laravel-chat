@@ -21,8 +21,11 @@ use Musonza\Chat\Exceptions\InvalidDirectMessageNumberOfParticipants;
 class Conversation extends BaseModel
 {
     protected $table = ConfigurationManager::CONVERSATIONS_TABLE;
-    protected $fillable = ['data', 'direct_message'];
+    protected $fillable = ['unique_name', 'friendly_name', 'attributes', 'data', 'direct_message'];
     protected $casts = [
+        'unique_name'    => 'string',
+        'friendly_name'  => 'string',
+        'attributes'     => 'array',
         'data'           => 'array',
         'direct_message' => 'boolean',
         'private'        => 'boolean',
@@ -167,7 +170,11 @@ class Conversation extends BaseModel
         }
 
         /** @var Conversation $conversation */
-        $conversation = $this->create(['data' => $payload['data'], 'direct_message' => (bool) $payload['direct_message']]);
+        $conversation = $this->create([
+            'unique_name' => $payload['unique_name'],
+            'data' => $payload['data'],
+            'direct_message' => (bool) $payload['direct_message']
+        ]);
 
         if ($payload['participants']) {
             $conversation->addParticipants($payload['participants']);
@@ -212,6 +219,34 @@ class Conversation extends BaseModel
         $this->ensureNoDirectMessagingExist($participants);
 
         $this->direct_message = $isDirect;
+        $this->save();
+
+        return $this;
+    }
+
+    /**
+     * Sets a friendly name for this conversation.
+     *
+     * @param string $friendlyName
+     * @return Conversation
+     */
+    public function setFriendlyName($friendlyName = '')
+    {
+        $this->friendly_name = $friendlyName;
+        $this->save();
+
+        return $this;
+    }
+
+    /**
+     * Sets attributes for this conversation.
+     *
+     * @param array $attributes
+     * @return Conversation
+     */
+    public function setAttributes($attributes = [])
+    {
+        $this->attributes = $attributes;
         $this->save();
 
         return $this;

@@ -42,14 +42,16 @@ class Chat
     /**
      * Creates a new conversation.
      *
+     * @param string $uniqueName
      * @param array $participants
      * @param array $data
      *
      * @return Conversation
      */
-    public function createConversation(array $participants, array $data = [])
+    public function createConversation(string $uniqueName, array $participants, array $data = [])
     {
         $payload = [
+            'unique_name'    => $uniqueName,
             'participants'   => $participants,
             'data'           => $data,
             'direct_message' => $this->conversationService->directMessage,
