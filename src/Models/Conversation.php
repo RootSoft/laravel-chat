@@ -246,7 +246,7 @@ class Conversation extends BaseModel
      */
     public function setAttributes($attributes = [])
     {
-        $this->attributes = $attributes;
+        $this->attributes = json_encode($attributes);
         $this->save();
 
         return $this;

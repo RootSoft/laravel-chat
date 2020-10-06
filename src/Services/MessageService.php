@@ -104,7 +104,7 @@ class MessageService
      *
      * @throws Exception
      *
-     * @return void
+     * @return Message
      */
     public function send()
     {
