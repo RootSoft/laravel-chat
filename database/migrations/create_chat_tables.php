@@ -19,7 +19,6 @@ class CreateChatTables extends Migration
 
             $table->string('unique_name')->unique();
             $table->string('friendly_name')->nullable();
-            $table->jsonb('attributes')->nullable();
 
             $table->boolean('private')->default(true);
             $table->boolean('direct_message')->default(false);

@@ -21,11 +21,10 @@ use Musonza\Chat\Exceptions\InvalidDirectMessageNumberOfParticipants;
 class Conversation extends BaseModel
 {
     protected $table = ConfigurationManager::CONVERSATIONS_TABLE;
-    protected $fillable = ['unique_name', 'friendly_name', 'attributes', 'data', 'direct_message'];
+    protected $fillable = ['unique_name', 'friendly_name', 'data', 'direct_message'];
     protected $casts = [
         'unique_name'    => 'string',
         'friendly_name'  => 'string',
-        'attributes'     => 'array',
         'data'           => 'array',
         'direct_message' => 'boolean',
         'private'        => 'boolean',
@@ -233,20 +232,6 @@ class Conversation extends BaseModel
     public function setFriendlyName($friendlyName = '')
     {
         $this->friendly_name = $friendlyName;
-        $this->save();
-
-        return $this;
-    }
-
-    /**
-     * Sets attributes for this conversation.
-     *
-     * @param array $attributes
-     * @return Conversation
-     */
-    public function setAttributes($attributes = [])
-    {
-        $this->attributes = json_encode($attributes);
         $this->save();
 
         return $this;
